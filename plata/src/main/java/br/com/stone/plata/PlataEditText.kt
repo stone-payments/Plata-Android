@@ -16,9 +16,13 @@ import java.util.*
 class PlataEditText : EditText {
     constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        setAttributes(context, attrs)
+    }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        setAttributes(context, attrs)
+    }
 
     private var locale = Locale("pt", "BR")
 
@@ -61,6 +65,11 @@ class PlataEditText : EditText {
 
     init {
         textWatcher(plataTextWatcher)
+    }
+
+    private fun setAttributes(context: Context, attrs: AttributeSet?) {
+        val args = context.theme.obtainStyledAttributes(attrs, R.styleable.PlataEditText, 0, 0)
+        maxAmount = args.getInt(R.styleable.PlataEditText_maxAmount, 0).toLong()
     }
 
     private fun safeRemoveSymbols(amount: CharSequence?): Long {
